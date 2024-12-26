@@ -6,8 +6,13 @@ Bureaucrat::Bureaucrat()
     std::cout<< "Bureaucrat is CONSTRUCTED without arguments." << std::endl;
 }
 
-Bureaucrat::Bureaucrat(std::string name, int grade) : _name(name), _grade(grade)
+Bureaucrat::Bureaucrat(std::string name, int grade) : _name(name)
 {
+    if (grade < 0)
+        throw Bureaucrat::GradeTooHighException();
+    else if (grade > 150)
+        throw Bureaucrat::GradeTooLowException();
+    this->_grade = grade;
     std::cout<< "Bureaucrat is CONSTRUCTED with grade: " << grade << " name: " << name << std::endl;
 }
 
@@ -37,7 +42,24 @@ int Bureaucrat::getGrade() const
 
 void Bureaucrat::promote()
 {
-    if (this->getGrade > )
+    if (this->getGrade() > 1)
+    {
+        this->_grade--;
+        std::cout << this->getName() << " is promoted! New grade is " << this->getGrade() << std::endl;
+    }
+    else
+        throw Bureaucrat::GradeTooHighException();
+}
+
+void Bureaucrat::demote()
+{
+    if (this->getGrade() < 150)
+    {
+        this->_grade++;
+        std::cout << this->getName() << " is demoted! New grade is " << this->getGrade() << std::endl;
+    }
+    else
+        throw Bureaucrat::GradeTooLowException();
 }
 
 std::string Bureaucrat::getName() const
@@ -47,10 +69,15 @@ std::string Bureaucrat::getName() const
 
 const char * Bureaucrat::GradeTooHighException::what() const throw()
 {
-    return("Bureaucrats grade is on its upper limit");
+    return("Bureaucrat's grade is on its upper limit");
 }
 
 const char * Bureaucrat::GradeTooLowException::what() const throw()
 {
-    return("Bureaucrats grade is on its lower limit");
+    return("Bureaucrat's grade is on its lower limit");
+}
+
+std::ostream &	operator<<(std::ostream & o, Bureaucrat const &src) {
+	o << src.getName() << ", bureaucrat grade : " << src.getGrade();
+	return o;
 }
