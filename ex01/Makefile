@@ -1,5 +1,5 @@
 NAME = ex01
-SRCS = main.cpp Bureaucrat.cpp
+SRCS = main.cpp Bureaucrat.cpp Form.cpp
 OBJS = $(SRCS:.cpp=.o)
 OBJDIR = ./objs
 OBJ_PATHS = $(addprefix $(OBJDIR)/, $(OBJS))
